@@ -1,0 +1,16 @@
+---
+#System Settings
+php_modules: [ 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip' ]
+#Wordpress
+wordpress_host: "172.31.44.60"
+#MySQL Settings
+mysql_root_password: "randomPassword"
+mysql_db: "wordpress"
+mysql_user: "wordpress"
+mysql_password: "wordpress"
+db_host: "172.31.39.29"
+db_port: "3306"
+#HTTP Settings
+http_host: "wordpress"
+http_conf: "wordpress.conf"
+http_port: "80"

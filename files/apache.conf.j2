@@ -1,0 +1,13 @@
+<VirtualHost *:{{ http_port }}>
+    DocumentRoot /srv/www/{{ http_host }}
+    <Directory /srv/www/{{ http_host }}>
+        Options FollowSymLinks
+        AllowOverride Limit Options FileInfo
+        DirectoryIndex index.php
+        Require all granted
+    </Directory>
+    <Directory /srv/www/{{ http_host }}/wp-content>
+        Options FollowSymLinks
+        Require all granted
+    </Directory>
+</VirtualHost>

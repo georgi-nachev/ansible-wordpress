@@ -1,0 +1,177 @@
+#########################################################
+# DO Community Playbooks: Wordpress on Ubuntu 18.04 LAMP
+#########################################################
+---
+- hosts: wordpress
+  become: true
+  vars_files:
+    - vars/default.yml
+
+  tasks:
+    - name: Install prerequisites
+      apt: name=aptitude update_cache=yes state=latest force_apt_get=yes
+      tags: [ system ]
+
+    - name: Install LAMP Packages
+      apt: name={{ item }} update_cache=yes state=latest
+      loop: [ 'apache2', 'mysql-server', 'python3-pymysql', 'php', 'php-mysql', 'libapache2-mod-php' ]
+      tags: [ system ]
+
+    - name: Install PHP Extensions
+      apt: name={{ item }} update_cache=yes state=latest
+      loop: "{{ php_modules }}"
+      tags: [ system ]
+
+  # Wordpress configuration
+    - name: Create document root
+      file:
+        path: "/srv/www/"
+        state: directory
+        owner: "www-data"
+        group: "www-data"
+        mode: '0755'
+      tags: [ apache ]
+    
+    - name: Download and unpack latest WordPress
+      unarchive:
+        src: https://wordpress.org/latest.tar.gz
+        dest: "/srv/www/"
+        remote_src: yes
+      tags: [ wordpress ]
+
+    - name: Set ownership
+      file:
+        path: "/srv/www/{{ http_host }}"
+        state: directory
+        recurse: yes
+        owner: www-data
+        group: www-data
+      tags: [ wordpress ]
+
+    - name: Set permissions for directories
+      shell: "/usr/bin/find /srv/www/{{ http_host }}/ -type d -exec chmod 750 {} \\;"
+      tags: [ wordpress ]
+
+    - name: Set permissions for files
+      shell: "/usr/bin/find /srv/www/{{ http_host }}/ -type f -exec chmod 640 {} \\;"
+      tags: [ wordpress ]
+
+  # UFW Configuration
+    - name: "UFW - Allow HTTP on port {{ http_port }}"
+      ufw:
+        rule: allow
+        port: "{{ http_port }}"
+        proto: tcp
+      tags: [ system ]
+
+
+- hosts: database 
+  become: true
+  vars_files:
+    - vars/default.yml
+  
+  tasks:
+    - name: Install prerequisites
+      apt: name=aptitude update_cache=yes state=latest force_apt_get=yes
+      tags: [ system ]
+
+    - name: Install LAMP Packages
+      apt: name={{ item }} update_cache=yes state=latest
+      loop: [ 'apache2', 'mysql-server', 'python3-pymysql', 'php', 'php-mysql', 'libapache2-mod-php' ]
+      tags: [ system ]
+
+    - name: Install PHP Extensions
+      apt: name={{ item }} update_cache=yes state=latest
+      loop: "{{ php_modules }}"
+      tags: [ system ]
+ 
+  # MySQL Configuration
+    - name: Set the root password
+      mysql_user:
+        name: root
+        password: "{{ mysql_root_password }}"
+      tags: [ mysql, mysql-root ]
+
+    - name: store mysql root password
+      copy: src=files/my-cnf.cnf dest=/root/.my.cnf
+
+    - name: Create MySQL database for wordpress
+      mysql_db:
+        name: "{{ mysql_db }}"
+        state: present
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+      tags: [ mysql ]
+   
+    - name: Create MySQL user for WordPress
+      mysql_user:
+        name: "{{ mysql_user }}"
+        password: "{{ mysql_password }}"
+        host: "{{ wordpress_host }}"
+        priv: "{{ mysql_db }}.*:ALL"
+        state: present
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+      tags: [ mysql ]
+
+  # UFW Configuration
+    - name: "UFW - Allow port {{ db_port }}"
+      ufw:
+        rule: allow
+        port: "{{ db_port }}"
+        proto: tcp
+        notify: Restart MySQL
+      tags: [ system ]
+  
+  handlers:
+    - name: Restart MySQL
+      service:
+        name: mysql
+        state: restarted
+
+
+- hosts: wordpress
+  become: true
+  vars_files:
+    - vars/default.yml
+
+  #Configure wordpress to connect to the database
+    - name: Set up wp-config
+      template:
+        src: "files/wp-config.php.j2"
+        dest: "/var/www/{{ http_host }}/wp-config.php"
+      tags: [ wordpress ]
+
+    - name: Set up Apache VirtualHost
+      template:
+        src: "files/apache.conf.j2"
+        dest: "/etc/apache2/sites-available/{{ http_conf }}"
+      notify: Reload Apache
+      tags: [ apache ]
+
+    - name: Enable rewrite module
+      shell: /usr/sbin/a2enmod rewrite
+      notify: Reload Apache
+      tags: [ apache ]
+
+    - name: Enable new site
+      shell: /usr/sbin/a2ensite {{ http_conf }}
+      notify: Reload Apache
+      tags: [ apache ]
+
+    - name: Disable default Apache site
+      shell: /usr/sbin/a2dissite 000-default.conf
+      notify: Restart Apache
+      tags: [ apache ]
+
+  handlers:
+    - name: Reload Apache
+      service:
+        name: apache2
+        state: reloaded
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
+
