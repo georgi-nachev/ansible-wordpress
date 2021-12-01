@@ -5,15 +5,13 @@
     - vars/default.yml
 
   tasks:
-    - name: Install LAMP Packages
+    - name: Install LAMP
       apt: name={{ item }} update_cache=yes state=latest
       loop: [ 'apache2', 'mysql-server', 'python3-pymysql', 'php', 'php-mysql', 'libapache2-mod-php' ]
-      tags: [ system ]
 
     - name: Install PHP Extensions
       apt: name={{ item }} update_cache=yes state=latest
       loop: "{{ php_modules }}"
-      tags: [ system ]
 
   # Wordpress and Apache configuration
     - name: Create document root
@@ -23,43 +21,36 @@
         owner: "www-data"
         group: "www-data"
         mode: '0755'
-      tags: [ apache ]
 
-    - name: Set up Apache VirtualHost
+    - name: Push the apache.conf
       template:
         src: "files/apache.conf.j2"
         dest: "/etc/apache2/sites-available/{{ http_conf }}"
       notify: Reload Apache
-      tags: [ apache ]
 
-    - name: Enable rewrite module
+    - name: Enable mod_rewrite
       shell: /usr/sbin/a2enmod rewrite
       notify: Reload Apache
-      tags: [ apache ]
 
-    - name: Enable new site
+    - name: Enable the site
       shell: /usr/sbin/a2ensite {{ http_conf }}
       notify: Reload Apache
-      tags: [ apache ]
 
     - name: Disable default Apache site
       shell: /usr/sbin/a2dissite 000-default.conf
       notify: Restart Apache
-      tags: [ apache ]
 
-    - name: "UFW - Allow HTTP on port {{ http_port }}"
+    - name: "Allow port {{ http_port }}"
       ufw:
         rule: allow
         port: "{{ http_port }}"
         proto: tcp
-      tags: [ system ]
 
-    - name: Download and unpack latest WordPress
+    - name: Download the latest WordPress
       unarchive:
         src: https://wordpress.org/latest.tar.gz
         dest: "/srv/www/"
         remote_src: yes
-      tags: [ wordpress ]
 
     - name: Set ownership
       file:
@@ -68,21 +59,17 @@
         recurse: yes
         owner: www-data
         group: www-data
-      tags: [ wordpress ]
 
     - name: Set permissions for directories
       shell: "/usr/bin/find /srv/www/{{ http_host }}/ -type d -exec chmod 750 {} \\;"
-      tags: [ wordpress ]
 
     - name: Set permissions for files
       shell: "/usr/bin/find /srv/www/{{ http_host }}/ -type f -exec chmod 640 {} \\;"
-      tags: [ wordpress ]
 
-    - name: Set up wp-config
+    - name: Push the wp-config.php
       template:
         src: "files/wp-config.php.j2"
         dest: "/srv/www/{{ http_host }}/wp-config.php"
-      tags: [ wordpress ]
 
   handlers:
     - name: Reload Apache
@@ -101,45 +88,33 @@
     - vars/default.yml
 
   tasks:
-    - name: Install LAMP Packages
+    - name: Install LAMP
       apt: name={{ item }} update_cache=yes state=latest
-      loop: [ 'apache2', 'mysql-server', 'python3-pymysql', 'php', 'php-mysql', 'libapache2-mod-php' ]
-      tags: [ system ]
-
-    - name: Install PHP Extensions
-      apt: name={{ item }} update_cache=yes state=latest
-      loop: "{{ php_modules }}"
-      tags: [ system ]
+      loop: [ 'mysql-server', 'python3-pymysql', 'php', 'php-mysql', 'libapache2-mod-php' ]
 
  # MySQL Configuration
     - name: Create MySQL database for WordPress
       shell: sudo mysql -u root --execute="CREATE DATABASE {{ mysql_db }};"
-      tags: [ mysql ]
 
     - name: Create MySQL user for WordPress
       shell: sudo mysql -u root --execute="CREATE USER {{ mysql_user }}@{{ wordpress_host }} IDENTIFIED BY '{{ mysql_password }}';"
-      tags: [ mysql ]
 
     - name: Grant the necessary privileges to the wordpress user
       shell: sudo mysql -u root --execute="GRANT ALL ON {{ mysql_user }}.* TO {{ mysql_user }}@{{ wordpress_host }};"
-      tags: [ mysql ]
 
     - name: Flush privileges
       shell: sudo mysql -u root --execute="FLUSH PRIVILEGES;"
-      tags: [ mysql ]
 
     - name: Push the updated mysqld.cnf
       template:
         src: "files/mysqld.cnf.j2"
         dest: "/etc/mysql/mysql.conf.d/mysqld.cnf"
-      tags: [ mysql ]
 
-    - name: "UFW - Allow port {{ db_port }}"
+    - name: "Allow port {{ db_port }}"
       ufw:
         rule: allow
         port: "{{ db_port }}"
         proto: tcp
-      tags: [ system ]
 
     - name: Restart MySQL
       service:
