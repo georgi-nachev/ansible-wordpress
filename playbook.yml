@@ -105,7 +105,7 @@
     - name: Flush privileges
       shell: sudo mysql -u root --execute="FLUSH PRIVILEGES;"
 
-    - name: Push the updated mysqld.cnf
+    - name: Push the mysqld.cnf
       template:
         src: "files/mysqld.cnf.j2"
         dest: "/etc/mysql/mysql.conf.d/mysqld.cnf"
