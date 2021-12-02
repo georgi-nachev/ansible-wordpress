@@ -2,6 +2,32 @@
 
 The playbook is designed with one ansible control node and two hosts in mind (one for the Wordpress + LAMP and the another one for the MySQL DB). Also for the purpose of this test, you need to add a firewall rule that would allow all "All traffic" during the AMIs creation process.
 
+## Playbook Structure
+
+- This is how the `ansible-wordpress` playbook is structured:
+
+```
+ansible-wordpress
+├── files
+│   ├── apache.conf.j2
+│   ├── mysqld.cnf.j2
+│   ├── wp-config.php.j2
+│   ├── table_optimize_script.sh.j2
+│   ├── tablesize_before.sql.j2
+│   └── tablesize_after.sql.j2
+│
+├── vars
+│   └── default.yml
+├── playbook.yml
+├── customHosts
+└── readme.md
+```
+- `files/`: directory containing templates and custom scripts required by the playbook.
+- `vars/`: directory to save variable files. A `default.yml` var file is included by default.
+- `playbook.yml`: the playbook file.
+- `customHosts`: the playbook's custom hosts file.
+- `readme.md`: instructions and links related to this playbook.
+
 ## Considering you have freshly provisioned AWS nodes:
 
 - Install latest updates and upgrades on your ansible control node and hosts
