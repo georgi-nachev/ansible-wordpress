@@ -100,7 +100,7 @@
       shell: exist=$(sudo mysql -u root -e "SELECT User, Host FROM mysql.user;" 2>/dev/null | grep -c {{ mysql_user }});if [ $exist -eq 0 ];then sudo mysql -u root --execute="CREATE USER {{ mysql_user }}@{{ wordpress_host }} IDENTIFIED BY '{{ mysql_password }}';";fi
 
     - name: Grant the necessary privileges to the wordpress user
-      shell: exist=$(sudo mysql -u root -e "SELECT User, Host FROM mysql.user;" 2>/dev/null | grep -c {{ mysql_user }});if [ $exist -eq 0 ];then sudo mysql -u root --execute="GRANT ALL ON {{ mysql_user }}.* TO {{ mysql_user }}@{{ wordpress_host }};";fi
+      shell: exist=$(sudo mysql -u root -e "SHOW GRANTS FOR {{ mysql_user }}@{{ wordpress_host }};" 2>/dev/null | grep -c "GRANT ALL PRIVILEGES");if [ $exist -eq 0 ];then sudo mysql -u root --execute="GRANT ALL ON {{ mysql_user }}.* TO {{ mysql_user }}@{{ wordpress_host }};";fi
 
     - name: Flush privileges
       shell: sudo mysql -u root --execute="FLUSH PRIVILEGES;"
