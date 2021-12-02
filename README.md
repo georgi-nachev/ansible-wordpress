@@ -56,6 +56,7 @@ ansible wordpress -m ping
 - Clone the git repository
 ```shell
 git clone https://github.com/georgi-nachev/ansible-wordpress.git
+cd ansible-wordpress/
 ``` 
 - Run the playbook
 ```shell
