@@ -38,7 +38,7 @@ vim ~/.ssh/authorized_keys
 
 - The playbook comes with a custom hosts file. You need to fill in the IP of your wordpress node under the `[wordpress]` section and the IP of your database node under `[database]` section
 
-- Find your IP's
+- Find your IP's using the below command
 ```shell
 ip address show
 ```
