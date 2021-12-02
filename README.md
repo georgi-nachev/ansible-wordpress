@@ -1,13 +1,6 @@
-sudo git add playbook.yml
-sudo git commit -m "comment" playbook.yml
-sudo git push https://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@github.com/georgi-nachev/ansible-wordpress.git
-____GIT DELETE A FILE____
-git rm -- *.anExtension
-git commit -m "remove multiple files"
-__________________________
+# For the purpose of this test, we'll add a firewall rule that would allow all "All traffic" AMI creation.
 
-## For the purpose of this test, we'll add a firewall rule that would allow all "All traffic" AMI creation.
-## The playbook is designed with one ansible control node and two hosts in mind, one for the Wordpress + LAMP and the other one for the MySQL DB
+# The playbook is designed with one ansible control node and two hosts in mind, one for the Wordpress + LAMP and the other one for the MySQL DB
 
 # Considering you have freshly provisioned AWS nodes, you should consider:
 - Install latest updates and upgrades as well as your Ansible Control Node and hosts
