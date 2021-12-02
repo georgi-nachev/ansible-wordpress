@@ -6,7 +6,6 @@
 ```shell
 sudo apt update -y
 sudo apt upgrade -y
-sudo apt install net-tools
 sudo apt install python
 ```
 - Install Ansible on your designated control node
@@ -15,7 +14,7 @@ sudo apt install ansible
 ```
 - Add your child hosts into the ansible host file. You can get a hold of your child servers IPs using ifconfig (search for your eth0 device IP address)
 ```shell
-ifconfig
+ip address show
 ```
 - Set up a connection between master and child nodes
 - Generate new public key, or use an exiting one by running the below command
