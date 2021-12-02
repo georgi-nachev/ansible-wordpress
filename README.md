@@ -14,7 +14,7 @@ sudo apt install python -y
 ```shell
 sudo apt install ansible -y
 ```
-- To set up a connection between the master and child nodes you need to populate your public key (id_rsa.pub) to your authorized_keys file on your child hosts. You can either use an existing public key, or generate a new one 
+- To set up a connection between the master and child nodes you need to populate your public key (id_rsa.pub) into your authorized_keys file on your child hosts. You can either use an existing public key, or generate a new one 
  ```shell
  ssh-keygen
  ```
