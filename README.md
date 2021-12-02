@@ -87,14 +87,16 @@ ip address show
 ansible -m ping -i customHosts ,
 ```
 
-## Settings:
+## Variables:
 
-- `php_extensions`:  All necessary php modules for a clean WordPress installation. No need to change this variable, but you might want to adapt it to your custom needs by extending it with additional modules.  
+- Final step before you run the playbook is adjusting the variables in `vars/default.yml` to your individual requirements. Read the description below so you can understand better their purpose in this playbook.
+
+- `php_extensions`:  All necessary php extensions for a clean WordPress installation. No need to change this variable, but you might want to adapt it to your needs by extending the list of modules.  
 - `database_name`: Your WordPress database name.
 - `database_user`: Your WordPress database username.
 - `database_user_password`: The password for your WordPress database username.
-- `database_ip`: The IP Address of your Database server (AMI)
-- `wordpress_ip`: The IP Address of your WordPress server (AMI)
+- `database_ip`: The IP Address of your Database server (as in the `customHosts` file)
+- `wordpress_ip`: The IP Address of your WordPress server (as in the `customHosts` file)
 - `http_host`: Your WordPress domain name.
 - `http_conf`: Your Apache config file name.
 - `http_port`: Your VirtualHost HTTP port (the default port is 80)
