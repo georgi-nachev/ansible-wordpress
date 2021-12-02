@@ -98,7 +98,6 @@
 
     - name: Flush privileges
       shell: mysql -u root --execute="FLUSH PRIVILEGES;"
-      become: yes
       
     - name: Push the mysqld.cnf
       template:
