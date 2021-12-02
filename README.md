@@ -14,29 +14,40 @@ sudo apt install python -y
 ```shell
 sudo apt install ansible -y
 ```
-- To set up a connection between the master and child nodes you need to populate your public key (id_rsa.pub) into your authorized_keys file on your child hosts. You can either use an existing public key, or generate a new one 
- ```shell
- ssh-keygen
- ```
- - Put your ssh public key into the authorized_keys file on each of your ansible hosts/child nodes.
-```shell
-vim ~/.ssh/authorized_keys
-```
-- Add your child hosts ip address into your ansible **`hosts`** file. You can get a hold of your child servers IPs using `ip address show` (search for your eth0 device IP address)
-```shell
-ip address show
-```
-- Display the content of your public key and copy it to the clipboard
- ```shell
-cat ~/.ssh/id_rsa.pub
-```
-- Add default interpreter in the ansible.cfg. Paste `interpreter_python = /usr/bin/python3` under `[defaults]` section in the **`/etc/ansible/ansible.cfg`**
+- Add a default interpreter. Paste `interpreter_python = /usr/bin/python3` under `[defaults]` section in the `/etc/ansible/ansible.cfg`
 ```shell
 sudo vim ansible.cfg
 ```
-- Test connection between master and chile hosts
+
+## Set up a connection between your master and child nodes 
+
+- Populate your public key (id_rsa.pub) into your authorized_keys file on your child hosts. You can either use an existing public key, or generate a new one 
+ ```shell
+ ssh-keygen
+ ```
+ - Copy the public key to your clipboard
+ ```shell
+cat ~/.ssh/id_rsa.pub
+```
+- Put your public key into the `authorized_keys` file on each of your ansible hosts
 ```shell
-ansible wordpress -m ping
+vim ~/.ssh/authorized_keys
+```
+
+## Adjust your hosts file
+
+- The playbook comes with a custom hosts file. You need to populate your the IP of your wordpress node under `[wordpress]` section and the IP of your database node under `[database]` section
+
+- Find your IP's
+```shell
+ip address show
+```
+
+### Test your connection
+
+- Test the connection between control node and your hosts. Run the below command while within the playbook folder
+```shell
+ansible -m ping -i customHosts ,
 ```
 
 ## Settings:
@@ -60,5 +71,5 @@ cd ansible-wordpress/
 ``` 
 - Run the playbook
 ```shell
-ansible-playbook playbook.yml
+ansible-playbook playbook.yml -i customHosts ,
 ```
