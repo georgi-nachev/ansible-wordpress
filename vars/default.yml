@@ -1,9 +1,10 @@
 ---
-php_modules: [ 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip' ]
-mysql_db: "wordpress"
-mysql_user: "wordpress"
-mysql_password: "wordpress"
-mysql_ip: "172.31.36.77"
-http_host: "wordpress"
-http_conf: "wordpress.conf"
-wordpress_ip: "172.31.41.194"
+php_extensions: [ 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip' ]
+database_name: "your_database_name"
+database_user: "your_database_username"
+database_user_password: "your_database_user_password"
+database_ip: "your_database_server_ip"
+wordpress_ip: "your_wordpress_server_ip"
+http_host: "your_domain"
+http_conf: "your_apache_conf_name"
+http_port: "80"
