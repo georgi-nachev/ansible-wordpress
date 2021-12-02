@@ -16,7 +16,8 @@ sudo apt install ansible
 ```shell
 ip address show
 ```
-- Set up a connection between master and child nodes
+#### Set up a connection between master and child nodes
+
 - Generate new public key, or use an exiting one by running the below command
  ```shell
  ssh-keygen
