@@ -2,7 +2,7 @@
 
 #### Considering you have freshly provisioned AWS nodes, you should consider:
 
-- Install latest updates and upgrades as well as your Ansible Control Node and hosts
+- Install latest updates and upgrades on your ansible control node and hosts
 ```shell
 sudo apt update -y
 sudo apt upgrade -y
