@@ -36,7 +36,7 @@ vim ~/.ssh/authorized_keys
 
 ## Adjust your hosts file
 
-- The playbook comes with a custom hosts file. You need to populate your the IP of your wordpress node under `[wordpress]` section and the IP of your database node under `[database]` section
+- The playbook comes with a custom hosts file. You need to fill in the IP of your wordpress node under the `[wordpress]` section and the IP of your database node under `[database]` section
 
 - Find your IP's
 ```shell
