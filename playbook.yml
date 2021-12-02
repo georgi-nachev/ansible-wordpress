@@ -1,6 +1,6 @@
 ---
 - hosts: wordpress
-  become: true
+  become: yes
   vars_files:
     - vars/default.yml
 
@@ -83,7 +83,7 @@
         state: restarted
 
 - hosts: database
-  become: true
+  become: yes
   vars_files:
     - vars/default.yml
 
@@ -103,7 +103,8 @@
       shell: exist=$(sudo mysql -u root -e "SHOW GRANTS FOR {{ mysql_user }}@{{ wordpress_host }};" 2>/dev/null | grep -c "GRANT ALL PRIVILEGES");if [ $exist -eq 0 ];then sudo mysql -u root --execute="GRANT ALL ON {{ mysql_user }}.* TO {{ mysql_user }}@{{ wordpress_host }};";fi
 
     - name: Flush privileges
-      shell: sudo mysql -u root --execute="FLUSH PRIVILEGES;"
+      shell: mysql -u root --execute="FLUSH PRIVILEGES;"
+      become: yes
       
     - name: Push the mysqld.cnf
       template:
