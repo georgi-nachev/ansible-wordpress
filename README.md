@@ -33,8 +33,6 @@ ansible-wordpress
 - Install latest updates and upgrades on your ansible control node and hosts
 ```shell
 sudo apt update -y
-sudo apt upgrade -y
-sudo apt install python -y
 ```
 - Install Ansible on your designated control node
 ```shell
@@ -42,7 +40,7 @@ sudo apt install ansible -y
 ```
 - Add a default interpreter. Paste `interpreter_python = /usr/bin/python3` under `[defaults]` section in the `/etc/ansible/ansible.cfg`
 ```shell
-sudo vim ansible.cfg
+sudo vim /etc/ansible/ansible.cfg
 ```
 
 ## Set up a connection between your master and child nodes 
