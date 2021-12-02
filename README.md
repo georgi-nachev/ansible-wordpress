@@ -2,6 +2,14 @@
 
 The playbook is designed with one ansible control node and two hosts in mind (one for the Wordpress + LAMP and another for the MySQL DB). Also for the purpose of this test, you need to add an additional firewall rule during your AMI creation, that would allow all "All traffic".
 
+## Obtain the repository
+
+- Clone the git repository
+```shell
+git clone https://github.com/georgi-nachev/ansible-wordpress.git
+cd ansible-wordpress/
+``` 
+
 ## Playbook Structure
 
 - This is how the `ansible-wordpress` playbook is structured:
@@ -93,11 +101,6 @@ ansible -m ping -i customHosts ,
 
 ## Running the playbook:
 
-- Clone the git repository
-```shell
-git clone https://github.com/georgi-nachev/ansible-wordpress.git
-cd ansible-wordpress/
-``` 
 - Run the playbook
 ```shell
 ansible-playbook playbook.yml -i customHosts
