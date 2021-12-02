@@ -53,6 +53,7 @@ git clone https://github.com/georgi-nachev/ansible-wordpress.git
 - `wordpress_ip`: The IP Address of your WordPress server (AMI)
 - `http_host`: Your WordPress domain name.
 - `http_conf`: Your Apache config file name.
+- `http_port`: Your VirtualHost HTTP port (the default port is 80)
 
 ## Running the playbook:
 
