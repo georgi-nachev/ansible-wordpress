@@ -2,22 +2,29 @@
 
 # The playbook is designed with one ansible control node and two hosts in mind, one for the Wordpress + LAMP and the other one for the MySQL DB
 
-# Considering you have freshly provisioned AWS nodes, you should consider:
+## Considering you have freshly provisioned AWS nodes, you should consider:
 
 - Install latest updates and upgrades as well as your Ansible Control Node and hosts
-	sudo apt update -y
-	sudo apt upgrade -y
-	sudo apt install net-tools
-	sudo apt install python
-- Make sure you have Ansible installed on your master server
-	sudo apt install ansible
+```shell
+sudo apt update -y
+sudo apt upgrade -y
+sudo apt install net-tools
+sudo apt install python
+```
+- Install Ansible on your designated control node
+```shell
+sudo apt install ansible
+```
 - Add your child hosts into the ansible host file. You can get a hold of your child servers IPs using ifconfig (search for your eth0 device IP address)
+```shell
+ifconfig
+```
 - Set up a connection between master and child nodes
- - Generate new public key, or use an exiting one by running the below command
+- Generate new public key, or use an exiting one by running the below command
  ```shell
  ssh-keygen
  ```
- - Display the content of your newly generated public key and copy it to the clipboard
+- Display the content of your newly generated public key and copy it to the clipboard
  ```shell
 cat ~/.ssh/id_rsa.pub
 ```
