@@ -1,6 +1,6 @@
 # This is the default ansible 'hosts' file for this playbook.
 #
 [wordpress]
-172.31.43.246
+172.31.45.79
 [database]
-172.31.36.152
+172.31.40.159
