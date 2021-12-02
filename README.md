@@ -25,10 +25,13 @@ ip address show
  ```shell
 cat ~/.ssh/id_rsa.pub
 ```
-- On each of your child nodes paste the content of your clipboard (the ssh key) on a new line into ~/.ssh/authorized_keys
-- Add default interpreter in the ansible.cfg (paste "interpreter_python = /usr/bin/python3" under [defaults] section in the ansible.cfg)
+- On each of your ansible hosts paste the content of your clipboard (the ssh key) on a new line into ~/.ssh/authorized_keys
 ```shell
 vim ~/.ssh/authorized_keys
+```
+- Add default interpreter in the ansible.cfg (paste "interpreter_python = /usr/bin/python3" under [defaults] section in the ansible.cfg)
+```shell
+sudo vim ansible.cfg
 ```
 - Test connection between master and chile hosts
 ```shell
