@@ -104,12 +104,12 @@
 
     - name: Flush privileges
       shell: sudo mysql -u root --execute="FLUSH PRIVILEGES;"
-
+      
     - name: Push the mysqld.cnf
       template:
         src: "files/mysqld.cnf.j2"
         dest: "/etc/mysql/mysql.conf.d/mysqld.cnf"
-
+    
     - name: "Allow port {{ db_port }}"
       ufw:
         rule: allow
@@ -120,3 +120,39 @@
       service:
         name: mysql
         state: restarted
+    
+    - name: Push tablesize_before.sql
+      template:
+        src: "files/tablesize_before.sql.j2"
+        dest: "/home/ubuntu/tablesize_before.sql"
+		
+    - name: Push tablesize_after.sql
+      template:
+        src: "files/tablesize_after.sql.j2"
+        dest: "/home/ubuntu/tablesize_after.sql"
+		
+    - name: Push table_optimize_script.sh
+      template:
+        src: "files/table_optimize_script.sh.j2"
+        dest: "/home/ubuntu/table_optimize_script.sh"
+    
+    - name: Set ownership
+      file:
+        path: "/home/ubuntu/"
+        state: directory
+        recurse: yes
+        owner: ubuntu
+        group: ubuntu
+    
+    - name: Set permissions for table optimization scripts
+      shell: "/usr/bin/find /home/ubuntu/ -type f -exec chmod 755 {} \\;"
+     
+    - name: Add job triggering logs rotation.
+      cron:
+        user: 'ubuntu'
+        name: 'database optimize'
+        weekday: "1"
+        minute: "0"
+        hour: "12"
+        job: '/home/ubuntu/table_optimize_script.sh'
+        state: present
