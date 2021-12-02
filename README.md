@@ -22,7 +22,7 @@ sudo apt install ansible -y
 ```shell
 vim ~/.ssh/authorized_keys
 ```
-- Add your child hosts ip address into your ansible **hosts** file. You can get a hold of your child servers IPs using `ip address show` (search for your eth0 device IP address)
+- Add your child hosts ip address into your ansible **`hosts`** file. You can get a hold of your child servers IPs using `ip address show` (search for your eth0 device IP address)
 ```shell
 ip address show
 ```
@@ -30,7 +30,7 @@ ip address show
  ```shell
 cat ~/.ssh/id_rsa.pub
 ```
-- Add default interpreter in the ansible.cfg. Paste `interpreter_python = /usr/bin/python3` under [defaults] section in the /etc/ansible/ansible.cfg
+- Add default interpreter in the ansible.cfg. Paste `interpreter_python = /usr/bin/python3` under `[defaults]` section in the **`/etc/ansible/ansible.cfg`**
 ```shell
 sudo vim ansible.cfg
 ```
