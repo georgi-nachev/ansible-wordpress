@@ -1,4 +1,4 @@
 #!/bin/bash
 sudo mysql -u root -e "source /home/ubuntu/tablesize_before.sql"
-sudo mysqlcheck -u root -o wordpress
+sudo mysqlcheck -u root -o {{ database_name }}
 sudo mysql -u root -e "source /home/ubuntu/tablesize_after.sql"
