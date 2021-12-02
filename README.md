@@ -97,5 +97,5 @@ cd ansible-wordpress/
 ``` 
 - Run the playbook
 ```shell
-ansible-playbook playbook.yml -i customHosts ,
+ansible-playbook playbook.yml -i customHosts
 ```
