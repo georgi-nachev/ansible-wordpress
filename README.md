@@ -18,15 +18,15 @@ sudo apt install ansible
 ```shell
 ip address show
 ```
-- Generate new public key, or use an exiting one by running the below command
+- To set up the connection between the master and child nodes you need to generate a new public key, or use an exiting one by running the below command
  ```shell
  ssh-keygen
  ```
-- Display the content of your newly generated public key and copy it to the clipboard
+- Display the content of your public key and copy it to the clipboard
  ```shell
 cat ~/.ssh/id_rsa.pub
 ```
-- On each of your ansible hosts paste the content of your clipboard (the ssh key) on a new line into ~/.ssh/authorized_keys
+- On each of your ansible hosts paste the content of your clipboard (the ssh key) on a new line into your authorized_keys file
 ```shell
 vim ~/.ssh/authorized_keys
 ```
