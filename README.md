@@ -3,6 +3,7 @@
 # The playbook is designed with one ansible control node and two hosts in mind, one for the Wordpress + LAMP and the other one for the MySQL DB
 
 # Considering you have freshly provisioned AWS nodes, you should consider:
+
 - Install latest updates and upgrades as well as your Ansible Control Node and hosts
 	sudo apt update -y
 	sudo apt upgrade -y
