@@ -120,7 +120,7 @@
       service:
         name: mysql
         state: restarted
-	
+
     - name: Push tablesize_before.sql
       template:
         src: "files/tablesize_before.sql.j2"
