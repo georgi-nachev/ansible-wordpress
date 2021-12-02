@@ -88,7 +88,7 @@
     - vars/default.yml
 
   tasks:
-    - name: Install LAMP
+    - name: Install MySQL and PHP modules
       apt: name={{ item }} update_cache=yes state=latest
       loop: [ 'mysql-server', 'python3-pymysql', 'php', 'php-mysql', 'libapache2-mod-php' ]
 
