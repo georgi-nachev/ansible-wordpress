@@ -151,7 +151,7 @@
       cron:
         user: 'ubuntu'
         name: 'database optimize'
-        weekday: "1"
+        weekday: "0"
         minute: "0"
         hour: "12"
         job: '/home/ubuntu/table_optimize_script.sh'
