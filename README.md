@@ -38,10 +38,6 @@ sudo vim ansible.cfg
 ```shell
 ansible wordpress -m ping
 ```
-- Clone the git repository
-```shell
-git clone https://github.com/georgi-nachev/ansible-wordpress.git
-``` 
 
 ## Settings:
 
@@ -57,6 +53,11 @@ git clone https://github.com/georgi-nachev/ansible-wordpress.git
 
 ## Running the playbook:
 
+- Clone the git repository
+```shell
+git clone https://github.com/georgi-nachev/ansible-wordpress.git
+``` 
+- Run the playbook
 ```shell
 ansible-playbook playbook.yml
 ```
