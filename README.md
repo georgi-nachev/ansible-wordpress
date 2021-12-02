@@ -18,11 +18,11 @@ sudo apt install ansible -y
  ```shell
  ssh-keygen
  ```
- - On each of your ansible hosts (child nodes) paste the content of your clipboard (the ssh key) on a new line into your authorized_keys file
+ - Put your ssh public key into the authorized_keys file on each of your ansible hosts/child nodes.
 ```shell
 vim ~/.ssh/authorized_keys
 ```
-- Add your child hosts into the ansible host file. You can get a hold of your child servers IPs using ifconfig (search for your eth0 device IP address)
+- Add your child hosts ip address into your ansible **hosts** file. You can get a hold of your child servers IPs using `ip address show` (search for your eth0 device IP address)
 ```shell
 ip address show
 ```
