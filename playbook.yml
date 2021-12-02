@@ -94,13 +94,13 @@
 
  # MySQL Configuration
     - name: Create MySQL database for WordPress
-      shell: sudo mysql -u root --execute="CREATE DATABASE {{ mysql_db }};"
-
+      shell:  exist=$(sudo mysql -u root -e "SHOW DATABASES;" 2>/dev/null | grep -c {{ mysql_db }});if [ $exist -eq 0 ];then sudo mysql -u root --execute="CREATE DATABASE {{ mysql_db }};";fi
+      
     - name: Create MySQL user for WordPress
-      shell: sudo mysql -u root --execute="CREATE USER {{ mysql_user }}@{{ wordpress_host }} IDENTIFIED BY '{{ mysql_password }}';"
+      shell: exist=$(sudo mysql -u root -e "SELECT User, Host FROM mysql.user;" 2>/dev/null | grep -c {{ mysql_user }});if [ $exist -eq 0 ];then sudo mysql -u root --execute="CREATE USER {{ mysql_user }}@{{ wordpress_host }} IDENTIFIED BY '{{ mysql_password }}';";fi
 
     - name: Grant the necessary privileges to the wordpress user
-      shell: sudo mysql -u root --execute="GRANT ALL ON {{ mysql_user }}.* TO {{ mysql_user }}@{{ wordpress_host }};"
+      shell: exist=$(sudo mysql -u root -e "SELECT User, Host FROM mysql.user;" 2>/dev/null | grep -c {{ mysql_user }});if [ $exist -eq 0 ];then sudo mysql -u root --execute="GRANT ALL ON {{ mysql_user }}.* TO {{ mysql_user }}@{{ wordpress_host }};";fi
 
     - name: Flush privileges
       shell: sudo mysql -u root --execute="FLUSH PRIVILEGES;"
@@ -151,8 +151,6 @@
       cron:
         user: 'ubuntu'
         name: 'database optimize'
-        weekday: "0"
-        minute: "0"
-        hour: "12"
+        minute: "*/2"
         job: '/home/ubuntu/table_optimize_script.sh'
         state: present
