@@ -8,29 +8,29 @@ The playbook is designed with one ansible control node and two hosts in mind (on
 ```shell
 sudo apt update -y
 sudo apt upgrade -y
-sudo apt install python
+sudo apt install python -y
 ```
 - Install Ansible on your designated control node
 ```shell
-sudo apt install ansible
+sudo apt install ansible -y
+```
+- To set up the connection between the master and child nodes you need to populate your public key (id_rsa.pub) to your authorized_keys file on your child hosts. You can either use an existing public key, or generate a new one 
+ ```shell
+ ssh-keygen
+ ```
+ - On each of your ansible hosts (child nodes) paste the content of your clipboard (the ssh key) on a new line into your authorized_keys file
+```shell
+vim ~/.ssh/authorized_keys
 ```
 - Add your child hosts into the ansible host file. You can get a hold of your child servers IPs using ifconfig (search for your eth0 device IP address)
 ```shell
 ip address show
 ```
-- To set up the connection between the master and child nodes you need to generate a new public key, or use an exiting one by running the below command
- ```shell
- ssh-keygen
- ```
 - Display the content of your public key and copy it to the clipboard
  ```shell
 cat ~/.ssh/id_rsa.pub
 ```
-- On each of your ansible hosts paste the content of your clipboard (the ssh key) on a new line into your authorized_keys file
-```shell
-vim ~/.ssh/authorized_keys
-```
-- Add default interpreter in the ansible.cfg (paste "interpreter_python = /usr/bin/python3" under [defaults] section in the ansible.cfg)
+- Add default interpreter in the ansible.cfg. Paste `interpreter_python = /usr/bin/python3` under [defaults] section in the /etc/ansible/ansible.cfg
 ```shell
 sudo vim ansible.cfg
 ```
