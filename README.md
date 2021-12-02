@@ -36,7 +36,7 @@ ansible-wordpress
 - `customHosts`: the playbook's custom hosts file.
 - `readme.md`: instructions and links related to this playbook.
 
-## Considering you have freshly provisioned AWS nodes:
+## Considering you have freshly provisioned AWS nodes, you should start with:
 
 - Install latest updates and upgrades on your ansible control node and hosts
 ```shell
@@ -87,7 +87,7 @@ ip address show
 ansible -m ping -i customHosts ,
 ```
 
-## Variables:
+## Variables
 
 - Final step before you run the playbook is adjusting the variables in `vars/default.yml` to your individual requirements. Read the description below so you can understand better their purpose in this playbook.
 
@@ -101,9 +101,20 @@ ansible -m ping -i customHosts ,
 - `http_conf`: Your Apache config file name.
 - `http_port`: Your VirtualHost HTTP port (the default port is 80)
 
-## Running the playbook:
+## Running the playbook
 
 - Run the playbook
 ```shell
 ansible-playbook playbook.yml -i customHosts
 ```
+## Additional comments
+
+- One of the playbook steps will schedule a crontab job that would run every Sunday at noon. You can verify that on your `database` node
+
+- Run the playbook
+```shell
+crontab -l
+```
+
+- To verify successfull installation, go in your AWS EC2 console, get a hold of your `Public IPv4 address` of you WordPress AMI and run it in your web browser of choice.
+- ***Voila!***
