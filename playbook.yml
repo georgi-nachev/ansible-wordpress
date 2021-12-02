@@ -11,7 +11,7 @@
 
     - name: Install PHP Extensions
       apt: name={{ item }} update_cache=yes state=latest
-      loop: "{{ php_modules }}"
+      loop: "{{ php_extensions }}"
 
   # Wordpress and Apache configuration
     - name: Create document root
@@ -88,13 +88,13 @@
 
  # MySQL Configuration
     - name: Create MySQL database for WordPress
-      shell:  exist=$(sudo mysql -u root -e "SHOW DATABASES;" 2>/dev/null | grep -c {{ mysql_db }});if [ $exist -eq 0 ];then sudo mysql -u root --execute="CREATE DATABASE {{ mysql_db }};";fi
+      shell:  exist=$(sudo mysql -u root -e "SHOW DATABASES;" 2>/dev/null | grep -c {{ database_name }});if [ $exist -eq 0 ];then sudo mysql -u root --execute="CREATE DATABASE {{ database_name }};";fi
       
     - name: Create MySQL user for WordPress
-      shell: exist=$(sudo mysql -u root -e "SELECT User, Host FROM mysql.user;" 2>/dev/null | grep -c {{ mysql_user }});if [ $exist -eq 0 ];then sudo mysql -u root --execute="CREATE USER {{ mysql_user }}@{{ wordpress_ip }} IDENTIFIED BY '{{ mysql_password }}';";fi
+      shell: exist=$(sudo mysql -u root -e "SELECT User, Host FROM mysql.user;" 2>/dev/null | grep -c {{ database_user }});if [ $exist -eq 0 ];then sudo mysql -u root --execute="CREATE USER {{ database_user }}@{{ wordpress_ip }} IDENTIFIED BY '{{ database_user_password }}';";fi
 
     - name: Grant the necessary privileges to the wordpress user
-      shell: exist=$(sudo mysql -u root -e "SHOW GRANTS FOR {{ mysql_user }}@{{ wordpress_ip }};" 2>/dev/null | grep -c "GRANT ALL PRIVILEGES");if [ $exist -eq 0 ];then sudo mysql -u root --execute="GRANT ALL ON {{ mysql_user }}.* TO {{ mysql_user }}@{{ wordpress_ip }};";fi
+      shell: exist=$(sudo mysql -u root -e "SHOW GRANTS FOR {{ database_user }}@{{ wordpress_ip }};" 2>/dev/null | grep -c "GRANT ALL PRIVILEGES");if [ $exist -eq 0 ];then sudo mysql -u root --execute="GRANT ALL ON {{ database_user }}.* TO {{ database_user }}@{{ wordpress_ip }};";fi
 
     - name: Flush privileges
       shell: mysql -u root --execute="FLUSH PRIVILEGES;"
