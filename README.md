@@ -1,6 +1,6 @@
 # WordPress with MySQL on a separate node on Ubuntu 18.04/20.04
 
-The playbook is designed with one ansible control node and two hosts in mind (one for the Wordpress + LAMP and the another one for the MySQL DB). Also for the purpose of this test, you need to add a firewall rule that would allow all "All traffic" during the AMIs creation process.
+The playbook is designed with one ansible control node and two hosts in mind (one for the Wordpress + LAMP and another for the MySQL DB). Also for the purpose of this test, you need to add an additional firewall rule during your AMI creation, that would allow all "All traffic".
 
 ## Playbook Structure
 
