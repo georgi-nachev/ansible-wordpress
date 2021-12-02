@@ -1,8 +1,8 @@
-# Wodpress with separate MySQL node on Ubuntu 18.04/20.04
+# WordPress with MySQL on a separate node on Ubuntu 18.04/20.04
 
 The playbook is designed with one ansible control node and two hosts in mind (one for the Wordpress + LAMP and the another one for the MySQL DB). Also for the purpose of this test, you need to add a firewall rule that would allow all "All traffic" during the AMIs creation process.
 
-#### Considering you have freshly provisioned AWS nodes, you should consider:
+## Considering you have freshly provisioned AWS nodes, you should consider:
 
 - Install latest updates and upgrades on your ansible control node and hosts
 ```shell
@@ -18,7 +18,7 @@ sudo apt install ansible
 ```shell
 ip address show
 ```
-#### Set up a connection between master and child nodes
+## Set up a connection between master and child nodes
 
 - Generate new public key, or use an exiting one by running the below command
  ```shell
