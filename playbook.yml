@@ -39,13 +39,7 @@
     - name: Disable default Apache site
       shell: /usr/sbin/a2dissite 000-default.conf
       notify: Restart Apache
-
-    - name: "Allow port {{ http_port }}"
-      ufw:
-        rule: allow
-        port: "{{ http_port }}"
-        proto: tcp
-
+      
     - name: Download the latest WordPress
       unarchive:
         src: https://wordpress.org/latest.tar.gz
@@ -110,12 +104,6 @@
       template:
         src: "files/mysqld.cnf.j2"
         dest: "/etc/mysql/mysql.conf.d/mysqld.cnf"
-    
-    - name: "Allow port {{ db_port }}"
-      ufw:
-        rule: allow
-        port: "{{ db_port }}"
-        proto: tcp
 
     - name: Restart MySQL
       service:
